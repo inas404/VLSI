@@ -38,8 +38,17 @@ begin
   reset<=RST when En='1' 
   else '1';
 
- Ovf<='1' when   Cnt_Out=temp
- else '0' ;
+--process(Fin)
+  --  begin
+      --if rising_edge(Fin)then
+ --if Cnt_Out=temp then
+   -- Ovf<='1'  ;
+  --else Ovf<='0' ;
+ --end if;
+-- end if;
+--end process;
+OVF<=Fin when Cnt_Ovf='1'else '0';
+
   counter:  updff port map(En,RST,Fin,temp,Cnt_Out,Cnt_Ovf);
 
 

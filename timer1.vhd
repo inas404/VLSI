@@ -49,7 +49,7 @@ architecture  Data_flow of timer1 is
 
 	begin
 	  Pre_Mode<=Control(5 downto 3)when Control(6)='1' else "000";
-	  Post_Mode<=Control(2 downto 0)when Control(7)='1' else "111";
+	  Post_Mode<=Control(2 downto 0)when Control(7)='1' else "001";
 
 	  pre: prescaler port map(Clk,Rst,En,Pre_Mode,Fout_Pre);
 	  cnt1: updff port map(En,Rst,Fout_Pre,Data12,Counter_Out,Cnt_Ovf);

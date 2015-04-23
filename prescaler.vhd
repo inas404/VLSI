@@ -28,31 +28,30 @@ architecture pre of prescaler is
 begin
   org<=Fin;
   counter: updff port map(En,rst,Fin,"11111111",Q,Cnt_Ovf);
-  --process(Q,En,Rst,Data,fin)
-  -- begin
-
-        --if Q=Data and rising_edge(Y) then
-        -- OVF<='1';
-        --elsif Q=Data and rising_edge(Fin) then
-        --   Rst_cnt<='1';
-        --else
-        --  Rst_cnt<=Rst;
-        --  OVF<='0';
-        --end if;
-
-  	--end process;
-  
---OVF<='1'when Q=Data and rising_edge(Fin) else '0';
--- Rst_cnt<='1' when Q=Data else Rst;
+ 
  MUX: process(K,Q,org,Fin)
   variable A:std_logic_vector(8 downto 0);
+  subtype small_int is integer range 0 to 4 ;
+  variable conv : small_int;
   begin
     if(rising_edge(Fin))then
     A:=(Q & org);
-    Y<=A(CONV_INTEGER(K));
+    --if K="000" then 
+      --conv:=0;
+    if K="001" then
+      conv:=1;
+    elsif K="010" then
+      conv:=2;
+    elsif K="011" then
+      conv:=3;
+     elsif K="100" then
+      conv:=4;
+    end if;
+    Y<=A(conv);
+    --Y<=A(CONV_INTEGER(K));
   end if;
   end process;
-  Fout<=Y;
+  Fout<=Y when K/="000" else Fin;
   
 end pre;
 
@@ -61,3 +60,4 @@ end pre;
 --K 010 = 1:4
 --K 011 = 1:8
 --K 100 = 1:16
+
